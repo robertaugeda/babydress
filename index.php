@@ -6,7 +6,8 @@
 		<div class="row">
 	  	<div class="text-center col-xs-12 col-md-12">
 	    	<h4>Consulta clientes</h2>
-				<?php if (isset($_GET['mensagem'])){
+				<?php
+				if (isset($_GET['mensagem'])){
 					if ($_GET['mensagem']==TRUE){
 						echo '<div class="alert alert-success">Ação concluída com sucesso!</div>';
 					}else{
@@ -36,8 +37,6 @@
 								$cliente = new Cliente();
 								$clientes = $cliente->lista();
 
-
-
 								if ($clientes != FALSE){
 									$max =  count($clientes);
 									for ($i=0;$i<$max;$i++){
@@ -50,6 +49,7 @@
 										echo '	<td>'.$clientes[$i]->numero.'</td>';
 										echo '	<td>'.$clientes[$i]->cep.'</td>';
 										echo '	<td>'.$clientes[$i]->telefone.'</td>';
+										echo '	<td><a href="atualiza-cliente.php?id='.$clientes[$i]->id.'"><i class="glyphicon glyphicon-pencil"></i></a></td>';
 										echo '	<td><a href="remove-cliente.php?id='.$clientes[$i]->id.'"><i class="glyphicon glyphicon-trash"></i></a></td>';
 										echo '</tr>';
 									}

@@ -14,6 +14,7 @@ class Cliente {
   public $telefone;
 
   public function __construct(){}
+
   public function criar ($email, $senha, $nome, $rua, $bairro, $numero, $complemento, $cep, $telefone){
     $this->email = $email;
     $this->senha = $senha;
@@ -32,6 +33,17 @@ class Cliente {
     global $mysql;
     $query = 'INSERT INTO cliente (email, senha, nome, rua, bairro, numero, complemento, cep, telefone)
      VALUES ("'.$this->email.'", "'.$this->senha.'", "'.$this->nome.'", "'.$this->rua.'", "'.$this->bairro.'", '.$this->numero.', "'.$this->complemento.'", '.$this->cep.', '.$this->telefone.');';
+    $result = $mysql->query($query);
+    if ($result === FALSE){
+      return $result;
+    }else{
+      return TRUE;
+    }
+  }
+
+  public function alterar($id, $email, $senha, $nome, $rua, $bairro, $numero, $complemento, $cep, $telefone){
+    global $mysql;
+    $query = 'UPDATE cliente SET email="'.$email.'", senha="'.$senha.'", nome="'.$nome.'", rua="'.$rua.'", bairro="'.$bairro.'", numero='.$numero.', complemento="'.$complemento.'", cep="'.$cep.'", telefone="'.$telefone.'" WHERE id='.$id.';';
     $result = $mysql->query($query);
     if ($result === FALSE){
       return $result;
@@ -69,7 +81,27 @@ class Cliente {
     }
   }
 
-  public function remove($id){
+  public function procurar($id){
+    global $mysql;
+    $sql = 'SELECT * FROM cliente WHERE id ='.$id;
+    $result = $mysql->query($sql);
+    $line = mysqli_fetch_array($result);
+
+    $cliente['id'] = $line['id'];
+    $cliente['email'] = $line['email'];
+    $cliente['senha'] = $line['senha'];
+    $cliente['nome'] = $line['nome'];
+    $cliente['rua'] = $line['rua'];
+    $cliente['bairro'] = $line['bairro'];
+    $cliente['numero'] = $line['numero'];
+    $cliente['complemento'] = $line['complemento'];
+    $cliente['cep'] = $line['cep'];
+    $cliente['telefone'] = $line['telefone'];
+
+    return $cliente;
+  }
+
+  public function remover($id){
     global $mysql;
     $sql = 'DELETE FROM cliente WHERE id ='.$id;
     if ($mysql->query($sql)===TRUE){
